@@ -12,6 +12,10 @@ public class App
     public static void main( String[] args )
     {
         Icity city= new cityImpl();
-        System.out.println(city.findbyid(3));
+        System.out.println(city.findbyid(4));
+       // System.out.println("Find All\n");
+        //System.out.println(city.findAll());
+
+
     }
 }
