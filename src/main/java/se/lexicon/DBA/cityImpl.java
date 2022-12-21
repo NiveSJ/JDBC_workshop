@@ -164,7 +164,7 @@ public class cityImpl implements Icity {
 
     @Override
     public city update(city city) {
-        String query = "update city set name= ? where id=? ";
+        String query = "update city set name= ?,CountryCode=?,District=?,population=? where id=? ";
 
         try (
                 Connection connection = SQLConnection.getConnection();
@@ -173,7 +173,11 @@ public class cityImpl implements Icity {
             connection.setAutoCommit(false);
 
             preparedStatement.setString(1, city.getName());
-            preparedStatement.setInt(2, city.getId());
+            preparedStatement.setString(2,city.getCountrycode());
+            preparedStatement.setString(3,city.getDistrict());
+            preparedStatement.setInt(4,city.getPopulation());
+
+            preparedStatement.setInt(5, city.getId());
 
 
             int AffectedRows = preparedStatement.executeUpdate();

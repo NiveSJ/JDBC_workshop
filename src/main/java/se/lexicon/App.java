@@ -23,7 +23,10 @@ public class App
         city.findByName("Franca").forEach(System.out::println);
         System.out.println("\n find by ");
 
-        city.add(new city("Usalmpatti","IND","Madurai",12000));
+        //city.add(new city("Usalmpatti","IND","Madurai",12000));
+        city.update(new city(4080,"Usalmpatti","IND","Madurai",13000));
+
+        city.delete(new city(4080,"Usalmpatti","IND","Madurai",13000));
 
     }
 }
