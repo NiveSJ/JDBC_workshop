@@ -133,8 +133,8 @@ public class cityImpl implements Icity {
 
     @Override
     public city add(city city) {
-        String query = "Insert into todoit.todo_item(id,Name, CountryCode,District,Population)" +
-                " values (?,?,?,?,?); ";
+        String query = "Insert into city(name,countryCode,district,population)" +
+                " values (?,?,?,?); ";
 
         try (
                 Connection connection = SQLConnection.getConnection();
@@ -142,11 +142,13 @@ public class cityImpl implements Icity {
         ) {
             connection.setAutoCommit(false);
 
-            preparedStatement.setInt(1, city.getId());
-            preparedStatement.setString(2, city.getName());
-            preparedStatement.setString(3, city.getCountrycode());
-            preparedStatement.setString(4, city.getDistrict());
-            preparedStatement.setInt(5, city.getPopulation());
+            System.out.println(city);
+
+
+            preparedStatement.setString(1, city.getName());
+            preparedStatement.setString(2, city.getCountrycode());
+            preparedStatement.setString(3, city.getDistrict());
+            preparedStatement.setInt(4, city.getPopulation());
 
             int AffectedRows = preparedStatement.executeUpdate();
 
@@ -154,6 +156,7 @@ public class cityImpl implements Icity {
             connection.commit();
 
         } catch (DBConnectionException | SQLException e) {
+            e.printStackTrace();
             System.err.println(e.getMessage());
         }
         return city;

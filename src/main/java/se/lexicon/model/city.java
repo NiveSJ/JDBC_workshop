@@ -10,9 +10,20 @@ public class city {
     private int population;
 
 
-     public city(){}
-    public city( int id, String name, String countrycode, String district, int population){
+    public city() {
+    }
+
+    public city(int id, String name, String countrycode, String district, int population) {
         setId(id);
+        setName(name);
+        setCountrycode(countrycode);
+        setDistrict(district);
+        setPopulation(population);
+
+    }
+
+    public city(String name, String countrycode, String district, int population) {
+
         setName(name);
         setCountrycode(countrycode);
         setDistrict(district);
