@@ -27,11 +27,11 @@ public class App {
         city.add(new city("Usalmpatti", "IND", "Madurai", 12000));
 
         System.out.println("\n update city");
-        city.update(new city(4080, "Usalmpatti", "IND", "Madurai", 13000));
+        city.update(new city(4081, "Usalmpatti", "IND", "Madurai", 13000));
 
         System.out.println("\n delete city");
 
-        city.delete(new city(4080, "Usalmpatti", "IND", "Madurai", 13000));
+        city.delete(new city(4081, "Usalmpatti", "IND", "Madurai", 13000));
 
     }
 }
