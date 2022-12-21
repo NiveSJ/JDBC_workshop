@@ -1,4 +1,4 @@
-package se.lexicon.DBA;
+package se.lexicon.dao;
 
 import se.lexicon.exception.DBConnectionException;
 
@@ -6,7 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQLConnection {
+// todo: change to a proper name
+public class DBConnection {
 
     private static final String DB_USER = "root";
     private static final String DB_PWD = "Nive";

@@ -2,7 +2,8 @@ package se.lexicon.model;
 
 import java.util.Objects;
 
-public class city {
+// todo: change the class name
+public class City {
     private int id;
     private String name;
     private String countrycode;
@@ -10,10 +11,10 @@ public class city {
     private int population;
 
 
-    public city() {
+    public City() {
     }
 
-    public city(int id, String name, String countrycode, String district, int population) {
+    public City(int id, String name, String countrycode, String district, int population) {
         setId(id);
         setName(name);
         setCountrycode(countrycode);
@@ -22,7 +23,7 @@ public class city {
 
     }
 
-    public city(String name, String countrycode, String district, int population) {
+    public City(String name, String countrycode, String district, int population) {
 
         setName(name);
         setCountrycode(countrycode);
@@ -75,8 +76,8 @@ public class city {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof city)) return false;
-        city city = (city) o;
+        if (!(o instanceof City)) return false;
+        City city = (City) o;
         return id == city.id && population == city.population && Objects.equals(name, city.name) && Objects.equals(countrycode, city.countrycode) && Objects.equals(district, city.district);
     }
 
@@ -87,7 +88,7 @@ public class city {
 
     @Override
     public String toString() {
-        return "city{" +
+        return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", countrycode='" + countrycode + '\'' +

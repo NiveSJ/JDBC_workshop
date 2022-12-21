@@ -1,15 +1,15 @@
 package se.lexicon;
 
-import se.lexicon.DBA.Icity;
-import se.lexicon.DBA.cityImpl;
-import se.lexicon.model.city;
+import se.lexicon.dao.CityDAO;
+import se.lexicon.dao.CityDAOJDBC;
+import se.lexicon.model.City;
 
 /**
  * Hello world!
  */
 public class App {
     public static void main(String[] args) {
-        Icity city = new cityImpl();
+        CityDAO city = new CityDAOJDBC();
         System.out.println(city.findbyid(4));
 
         System.out.println("Find All\n");
@@ -22,16 +22,16 @@ public class App {
         System.out.println("\n find by Name");
         city.findByName("Franca").forEach(System.out::println);
 
-        System.out.println("\n Add new city");
+        System.out.println("\n Add new City");
 
-        city.add(new city("Usalmpatti", "IND", "Madurai", 12000));
+        city.add(new City("Usalmpatti", "IND", "Madurai", 12000));
 
-        System.out.println("\n update city");
-        city.update(new city(4081, "Usalmpatti", "IND", "Madurai", 13000));
+        System.out.println("\n update City");
+        city.update(new City(4081, "Usalmpatti", "IND", "Madurai", 13000));
 
-        System.out.println("\n delete city");
+        System.out.println("\n delete City");
 
-        city.delete(new city(4081, "Usalmpatti", "IND", "Madurai", 13000));
+        city.delete(new City(4081, "Usalmpatti", "IND", "Madurai", 13000));
 
     }
 }

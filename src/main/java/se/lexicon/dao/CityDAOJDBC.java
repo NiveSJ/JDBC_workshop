@@ -1,21 +1,23 @@
-package se.lexicon.DBA;
+package se.lexicon.dao;
 
 import se.lexicon.exception.DBConnectionException;
-import se.lexicon.model.city;
+import se.lexicon.model.City;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class cityImpl implements Icity {
+// todo: improve the class name
+public class CityDAOJDBC implements CityDAO {
     @Override
-    public city findbyid(int id) {
-        String query = "select * from world.city where id=?";
-        city city = new city();
+    public City findbyid(int id) {
+        String query = "select * from world.City where id=?";
+        City City = new City();
 
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             preparedStatement.setInt(1, id);
@@ -24,7 +26,7 @@ public class cityImpl implements Icity {
             while (resultSet.next()) {
 
 
-                city = new city(resultSet.getInt("id"),
+                City = new City(resultSet.getInt("id"),
                         resultSet.getString("Name"),
                         resultSet.getString("CountryCode"),
                         resultSet.getString("District"), resultSet.getInt("Population"));
@@ -35,26 +37,26 @@ public class cityImpl implements Icity {
             System.out.println(e.getMessage());
         }
 
-        return city;
+        return City;
     }
 
 
     @Override
-    public List<city> findByCode(String code) {
-        String query = "select * from world.city where CountryCode=? ";
-        city city = new city();
-        List<city> filteredList = new ArrayList<>();
+    public List<City> findByCode(String code) {
+        String query = "select * from world.City where CountryCode=? ";
+        City City = new City();
+        List<City> filteredList = new ArrayList<>();
 
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             preparedStatement.setString(1, code);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                filteredList.add(new city(resultSet.getInt("id"),
+                filteredList.add(new City(resultSet.getInt("id"),
                         resultSet.getString("Name"),
                         resultSet.getString("CountryCode"),
                         resultSet.getString("District"), resultSet.getInt("Population")));
@@ -70,21 +72,21 @@ public class cityImpl implements Icity {
     }
 
     @Override
-    public List<city> findByName(String name) {
-        String query = "select * from world.city where name = ? ";
-        city city = new city();
-        List<city> filteredList = new ArrayList<>();
+    public List<City> findByName(String name) {
+        String query = "select * from world.City where name = ? ";
+        City City = new City();
+        List<City> filteredList = new ArrayList<>();
 
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                filteredList.add(new city(resultSet.getInt("id"),
+                filteredList.add(new City(resultSet.getInt("id"),
                         resultSet.getString("Name"),
                         resultSet.getString("CountryCode"),
                         resultSet.getString("District"), resultSet.getInt("Population")));
@@ -101,21 +103,21 @@ public class cityImpl implements Icity {
     }
 
     @Override
-    public List<city> findAll() {
-        String query = "select * from world.city";
-        city city = new city();
-        List<city> filteredList = new ArrayList<>();
+    public List<City> findAll() {
+        String query = "select * from world.City";
+        City City = new City();
+        List<City> filteredList = new ArrayList<>();
 
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                filteredList.add(new city(resultSet.getInt("id"),
+                filteredList.add(new City(resultSet.getInt("id"),
                         resultSet.getString("Name"),
                         resultSet.getString("CountryCode"),
                         resultSet.getString("District"),
@@ -132,92 +134,81 @@ public class cityImpl implements Icity {
     }
 
     @Override
-    public city add(city city) {
-        String query = "Insert into city(name,countryCode,district,population)" +
+    public City add(City City) {
+        String query = "Insert into City(name,countryCode,district,population)" +
                 " values (?,?,?,?); ";
 
         try (
-                Connection connection = SQLConnection.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
-            connection.setAutoCommit(false);
 
-            System.out.println(city);
-
-
-            preparedStatement.setString(1, city.getName());
-            preparedStatement.setString(2, city.getCountrycode());
-            preparedStatement.setString(3, city.getDistrict());
-            preparedStatement.setInt(4, city.getPopulation());
+            preparedStatement.setString(1, City.getName());
+            preparedStatement.setString(2, City.getCountrycode());
+            preparedStatement.setString(3, City.getDistrict());
+            preparedStatement.setInt(4, City.getPopulation());
 
             int AffectedRows = preparedStatement.executeUpdate();
 
+            try (ResultSet rs = preparedStatement.getGeneratedKeys();) {
+                if (rs.next())
+                    City.setId(rs.getInt(1));
+            }
 
-            connection.commit();
 
         } catch (DBConnectionException | SQLException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
         }
-        return city;
+        return City;
     }
 
     @Override
-    public city update(city city) {
-        String query = "update city set name= ?,CountryCode=?,District=?,population=? where id=? ";
+    public City update(City City) {
+        String query = "update City set name= ?,CountryCode=?,District=?,population=? where id=? ";
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            connection.setAutoCommit(false);
 
-            preparedStatement.setString(1, city.getName());
-            preparedStatement.setString(2,city.getCountrycode());
-            preparedStatement.setString(3,city.getDistrict());
-            preparedStatement.setInt(4,city.getPopulation());
 
-            preparedStatement.setInt(5, city.getId());
+            preparedStatement.setString(1, City.getName());
+            preparedStatement.setString(2, City.getCountrycode());
+            preparedStatement.setString(3, City.getDistrict());
+            preparedStatement.setInt(4, City.getPopulation());
+
+            preparedStatement.setInt(5, City.getId());
 
 
             int AffectedRows = preparedStatement.executeUpdate();
 
 
-
-            connection.commit();
-
         } catch (DBConnectionException | SQLException e) {
             System.err.println(e.getMessage());
         }
-        return city;
+        return City;
     }
 
     @Override
-    public int delete(city city) {
+    public int delete(City City) {
 
-        String query = "delete from city where id = ? ";
+        String query = "delete from City where id = ? ";
         int AffectedRows = 0;
 
         try (
-                Connection connection = SQLConnection.getConnection();
+                Connection connection = DBConnection.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
-            connection.setAutoCommit(false);
 
-            preparedStatement.setInt(1, city.getId());
+            preparedStatement.setInt(1, City.getId());
+            AffectedRows = preparedStatement.executeUpdate();
 
-
-             AffectedRows = preparedStatement.executeUpdate();
-
-
-
-            connection.commit();
 
         } catch (DBConnectionException | SQLException e) {
             System.err.println(e.getMessage());
         }
         return AffectedRows;
-
 
 
     }
