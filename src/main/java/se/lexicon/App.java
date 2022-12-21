@@ -20,18 +20,18 @@ public class App {
         city.findByCode("ARG").forEach(System.out::println);
 
         System.out.println("\n find by Name");
-        city.findByName("Franca").forEach(System.out::println);
+        city.findByName("Usalmpatti").forEach(System.out::println);
 
         System.out.println("\n Add new City");
 
-        city.add(new City("Usalmpatti", "IND", "Madurai", 12000));
+       // city.add(new City("Usalmpatti", "IND", "Madurai", 12000));
 
         System.out.println("\n update City");
-        city.update(new City(4081, "Usalmpatti", "IND", "Madurai", 13000));
+        city.update(new City(4082, "Usalmpatti", "IND", "Madurai", 13000));
 
         System.out.println("\n delete City");
 
-        city.delete(new City(4081, "Usalmpatti", "IND", "Madurai", 13000));
+        city.delete(new City(4085, "Usalmpatti", "IND", "Madurai", 13000));
 
     }
 }
